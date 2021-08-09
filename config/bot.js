@@ -1,11 +1,23 @@
 module.exports = {
+
+  // const sTT = [
+  //       'o.help | fun stuff',
+  //       'o.help | join with us!',
+  //       'o.help | sleep in the day',
+  //       'o.help | play owlvernyte',
+  //       'o.help | congratss! ',
+  //     ]
+
+  // const rSTT = sTT[Math.floor(Math.random() * sTT.length)]
+  
   discord: {
     botid: process.env.BOT_ID,
-    prefix: [process.env.PREFIX , "<@853623967180259369>" , "<@!853623967180259369>"],
+    prefix: process.env.PREFIX,
     token: process.env.TOKEN,
     activity: {
-      name: 'o.help | fun stuff',
+      name: "o.help | fun stuff",
       type: 0,
     },
   },
+
 };

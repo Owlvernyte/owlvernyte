@@ -19,7 +19,8 @@ module.exports = {
 
       choices = ['rock','paper','scissors']
       if (!args[0])
-        return message.channel.send('Please mention someone or pick your choice')
+        return message.channel.send('**[ERROR]** Please mention someone or pick your choice. `<(r)ock, (p)aper, (s)cissors>`')
+
       if (!member) {
         let u = args[0].toLowerCase()
 
@@ -52,25 +53,30 @@ module.exports = {
         // if (args[0].toLowerCase() !== 'rock' || args[0].toLowerCase() !== 'paper' || args[0].toLowerCase() !== 'scissors' )
         
         
-      } else {
-
+      } 
+      
+      if (member) {
+        
+        if (member.id === message.author.id) {
+          return message.channel.send("**[ERROR]** Duh, you can't play with your own, can you?  ");
+        }
 
         const RockOption = new MessageMenuOption()
           .setLabel("Rock")
           .setDescription("Choose Rock ?")
-          .setEmoji('584236007495565333')
+          .setEmoji('🌑')
           .setValue("rock")
         
         const PaperOption = new MessageMenuOption()
           .setLabel("Paper")
           .setDescription("Choose Paper ?")
-          .setEmoji('584236007495565333')
+          .setEmoji('📄')
           .setValue("paper")
         
         const ScissorsOption = new MessageMenuOption()
           .setLabel("Scissors")
           .setDescription("Choose Scissors ?")
-          .setEmoji('584236007495565333')
+          .setEmoji('✂️')
           .setValue("scissors")
 
         const Menu = new MessageMenu()
@@ -83,21 +89,84 @@ module.exports = {
           .addComponent(Menu)
 
 
-        await message.channel.send( "Hello",
+        await message.channel.send(`${message.author} \`vs.\` ${member}`,
         {components : [Row1]})
           .then(async msg => {
+            setTimeout(() => {
+              return msg.edit({
+                content: `**TIMEOUT**`,
+                  components : []
+              })
+            }, 3 * 60 *  1000)
             const filter = (m) => m.clicker.id === message.author.id || m.clicker.id === member.id
-            let collector = msg.createMenuCollector(filter, {max : 2})
-
+            let collector = msg.createMenuCollector(filter, { max : 2})
+            let index = 0;
+            let player = new Map()
             collector.on('collect', (menu) => {
-              console.log(menu.values[0])
               menu.reply.defer()
             })
-            collector.on('end', (b) => {
-              console.log(message.author.id)
-              b.forEach((value, key)=> {
-                console.log(key)
+            collector.on('end', (MenuCollector) => {
+              // if (MenuCollector.length < 2) return msg.edit('Timeout')
+              MenuCollector.forEach((value, key)=> {
+                //msg.delete()
+                if (value.clicker.id === message.author.id || value.clicker.id === member.id)
+                  player.set(`${value.clicker.id}`, value.values[0])
+                
               })
+              const p1 = player.get(message.author.id)
+              const p2 = player.get(member.id)
+              if ( p1 === p2) {
+                
+                return msg.edit({
+                  content: `**${message.author.username}** chose *${p1}* | **${member.user.username}** chose *${p2}* \`=>\` **[RESULT]** TIED! `,
+                  components : [
+                    
+                  ]
+                })
+              }
+                
+              if (p1 == "rock" && p2 == "paper")  return msg.edit({
+                  content: `**${message.author.username}** chose *${p1}* | **${member.user.username}** chose *${p2}* \`=>\` **[RESULT]** ${member.user.username} won!`,
+                  components : [
+                    
+                  ]
+                });
+              if (p1 == "rock" && p2 == "scissors")  return msg.edit({
+                  content: `**${message.author.username}** chose *${p1}* | **${member.user.username}** chose *${p2}* \`=>\` **[RESULT]** ${message.author.username} won!`,
+                  components : [
+                    
+                  ]
+                });
+              
+
+              if (p1 == "paper" && p2 == "rock") return msg.edit({
+                  content: `**${message.author.username}** chose *${p1}* | **${member.user.username}** chose *${p2}* \`=>\` **[RESULT]** ${message.author.username} won!`,
+                  components : [
+                    
+                  ]
+                });
+              if (p1 == "paper" && p2 == "scissors") return msg.edit({
+                  content: `**${message.author.username}** chose *${p1}* | **${member.user.username}** chose *${p2}* \`=>\` **[RESULT]** ${member.user.username} won!`,
+                  components : [
+                    
+                  ]
+                });
+              
+
+              if (p1 == "scissors" && p2 == "paper")  return msg.edit({
+                  content: `**${message.author.username}** chose *${p1}* | **${member.user.username}** chose *${p2}* \`=>\` **[RESULT]** ${message.author.username} won!`,
+                  components : [
+                    
+                  ]
+                });
+              if (p1 == "scissors" && p2 == "rock")  return msg.edit({
+                  content: `**${message.author.username}** chose *${p1}* | **${member.user.username}** chose *${p2}* \`=>\` **[RESULT]** ${member.user.username} won!`,
+                  components : [
+                    
+                  ]
+                });
+
+                
             })
             //Collection [Map]
           })

@@ -1,3 +1,5 @@
+//https://discord.com/api/oauth2/authorize?client_id=874183713020330015&permissions=8&scope=bot
+
 const Discord = require("discord.js")
 const fs = require('fs')
 const Database = require("@replit/database")

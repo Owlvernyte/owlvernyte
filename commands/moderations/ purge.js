@@ -38,8 +38,12 @@ module.exports = {
             "**[ERROR]** Please specify a number of messages to delete ranging from 1 - 99"
           ) ;
 
+        let count = 0
+        const foundMessages = userMessages.filter((m) => {
+          return count++ < parseInt(args[1])
+        })
         await message.channel
-          .bulkDelete(parseInt(args[1]) + 1,userMessages)
+          .bulkDelete(foundMessages)
           .catch((err) => console.log(err));
         const userdel = await message.channel.send(`**[SUCCESS]** ${args[1]} messages from ${member} have been cleared.`);
         setTimeout(() => userdel.delete(),5000);
@@ -60,12 +64,12 @@ module.exports = {
           ) ;
           
         await message.channel
-          .bulkDelete(parseInt(args[0]) + 1)
+          .bulkDelete(parseInt(args[0]))
           .catch((err) => console.log(err));
           
         const deleteMessage = await message.channel.send("**[SUCCESS]** Deleted " + args[0] + " messages.");
 
-        setTimeout(() => deleteMessage.delete(), 5000)
+        setTimeout(() => deleteMessage.delete(), 5*1000)
         
       }
 
