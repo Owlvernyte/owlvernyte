@@ -15,8 +15,8 @@ module.exports = {
     prefix: process.env.PREFIX,
     token: process.env.TOKEN,
     activity: {
-      name: "o.help | fun stuff",
-      type: 0,
+      name: `${process.env.PREFIX}help | fun stuff`,
+      type: 3,
     },
   },
 
