@@ -1,6 +1,7 @@
+[![Discord](https://discord.com/api/guilds/830110554604961824/widget.png)](https://discord.link/owlvernyte)
+[![Discord Bot](https://discordbots.org/api/widget/status/853623967180259369.svg)](https://top.gg/bot/853623967180259369)
+
 # Owlvernyte
-___
-**The Owls status** [![Discord](https://discord.com/api/guilds/830110554604961824/widget.png)](https://discord.link/owlvernyte)
 
 Our bot is always not finished yet. But here is a list of function that it can do till now!
 ___
